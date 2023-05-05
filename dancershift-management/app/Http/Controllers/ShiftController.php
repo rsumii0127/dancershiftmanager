@@ -61,6 +61,27 @@ class ShiftController extends Controller
         return back()->with('message', '正常に登録されました。');
     }
 
+    public function shiftFind() {
+        $shows = Shows::get();
+        $dancers = Dancers::get();
+        $positions = Positions::get();
+        $shifts = [];
+        return view('shifts.find',compact('shows', 'positions', 'dancers', 'shifts'));
+    }
+
+    public function search(Request $request) {
+        $validated = $request -> validate([
+            // 'selected_show_name'=>'required',
+            'dancer_name'=>'required',
+            'show_name'=>'required'
+        ]);
+        $shows = Shows::get();
+        $dancers = Dancers::get();
+        $positions = Positions::get();
+        $shifts = Shifts::where(['dancer_id' => $request->dancer_name, 'show_name' => $request->show_name])->get();
+        return view('shifts.find',compact('shows', 'positions', 'dancers', 'shifts'));
+    }
+
     public function shiftForecast() {
         $dancers = Dancers::get();
         $shows = Shows::get();

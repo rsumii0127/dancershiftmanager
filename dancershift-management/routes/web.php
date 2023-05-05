@@ -76,6 +76,7 @@ Route::post('shiftmanagement/show/destroy/{show_id}', [ShowController::class, 'd
 Route::get('shiftmanagement/shift/register', [ShiftController::class, 'shiftRegister'])->name('shifts.register');
 Route::get('shiftmanagement/shift/forecast', [ShiftController::class, 'shiftForecast'])->name('shifts.forecast');
 Route::get('shiftmanagement/shift/find', [ShiftController::class, 'shiftFind'])->name('shifts.find');
+Route::get('shiftmanagement/shift/', [ShiftController::class, 'search'])->name('shifts.search');
 Route::get('shiftmanagement/shift/position', [ShiftController::class, 'searchPosition']) -> name('shifts.positionSearch');
 Route::post('shiftmanagement/shift', [ShiftController::class, 'store']) -> name('shifts.store');
 Route::get('shiftmanagement/shift/', [ShiftController::class, 'forecast']) -> name('shifts.calcShift');

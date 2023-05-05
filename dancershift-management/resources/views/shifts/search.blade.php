@@ -3,7 +3,7 @@
     シフト検索ページ
   </x-slot>
   <div class="col-sm-4">
-    <form class="form-inline" method="get" action={{ route('dancers.update') }} >
+    <form class="form-inline" method="get" action={{ route('shifts.search') }} >
       <div class="form-group">
         <select name="dancer_name" id="dancer_name">
           @foreach ($dancers as $dancer)
@@ -20,8 +20,6 @@
           <option value="{{ $position->position_name }}">{{ $position->position_name }}</option>
           @endforeach
         </select>
-        <input type="date" name="date">
-        <input type="checkbox" name="off">
       </div>
       <x-primary-button class="mt-4">
         検索
