@@ -106,7 +106,7 @@ class ShiftController extends Controller
         $shifts = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->get();
         $shiftCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->groupBy('position')->get();
         $offRecs = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->where('dancer_id',$request->dancer_name)->get();
-        $offCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->groupBy('position')->where('dancer_id',$request->dancer_name)->get();
+        $offCnt = Shifts::select('position', DB::raw("COUNT(off) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->groupBy('position')->where('dancer_id',$request->dancer_name)->get();
         if ($shifts->count() === 0 && $offRecs->count() === 0) {
             return back()->with('message', '該当する曜日のシフトが登録されていないため、予測できません')->with('possibilities', $possibilities);
         } else {
