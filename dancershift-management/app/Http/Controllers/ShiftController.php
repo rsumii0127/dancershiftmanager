@@ -46,9 +46,9 @@ class ShiftController extends Controller
         $validated = $request -> validate([
             // 'selected_show_name'=>'required',
             'dancer_name'=>'required',
-            'checkedPosition'=>'nullable',
+            'checkedPosition'=>'nullable|required_without:off',
             'date'=>'date|required',
-            'off'=>'nullable'
+            'off'=>'nullable|required_without:checkedPosition|prohibits:checkedPosition'
         ]);
         $shift = Shifts::create([
             'dancer_id' => $dancer_id,
@@ -103,8 +103,8 @@ class ShiftController extends Controller
         
         // 対象日付の曜日番号を取得
         $possibilities = [];
-        $shift = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->get();
-        $shiftCnt = Shifts::select(DB::raw("position, COUNT(position) AS 'position_count'"))->groupBy('position')->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->get();
+        $shift = Shifts::where([[DB::raw("DATE_FORMAT(date, '%w')"), $weekday], ['off'=>0]])->get();
+        $shiftCnt = Shifts::select(DB::raw("position, COUNT(position) AS 'position_count'"))->groupBy('position')->where([[DB::raw("DATE_FORMAT(date, '%w')")=>$weekday], ['dancer_id'=>$request->dancer_name]])->get();
         if ($shiftCnt->count() === 0) {
             return back()->with('message', '該当する曜日のシフトが登録されていないため、予測できません');
         }
@@ -112,7 +112,11 @@ class ShiftController extends Controller
         // 各ポジションの割合を算出。
         foreach($shiftCnt as $cnt) {
             $possibility = $cnt->position_count / $shift->count() * 100;
-            $possibilities = array_merge($possibilities, array($cnt->position=>$possibility));
+            if (empty($cnt->position)) {
+                $possibilities = array_merge($possibilities, array('OFF'=>$possibility));
+            } else {
+                $possibilities = array_merge($possibilities, array($cnt->position=>$possibility));
+            }
         }
         $dancers = Dancers::get();
         $shows = Shows::get();
