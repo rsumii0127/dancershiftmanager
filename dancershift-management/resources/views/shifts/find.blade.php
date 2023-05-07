@@ -3,7 +3,7 @@
     シフト検索ページ
   </x-slot>
   <div class="col-sm-4">
-    <form class="form-inline" method="get" action={{ route('shifts.search') }} >
+    <form class="form-inline" method="get" action={{ route('shifts.get') }} >
       <div class="form-group">
         <select name="dancer_name" id="dancer_name">
           @foreach ($dancers as $dancer)
@@ -36,10 +36,10 @@
       </tr>
       @foreach ($shifts as $shift)
       <tr>
-        <td>{{ $shift->dancer_name }}</td>
+        <td>{{ $shift->dancers->dancer_name }}</td>
         <td>{{ $shift->show_name }}</td>
         <td>{{ $shift->date }}</td>
-        <td>{{ $shift->position_name }}</td>
+        <td>{{ $shift->position }}</td>
         <td>{{ $shift->off }}</td>
       </tr>
       @endforeach

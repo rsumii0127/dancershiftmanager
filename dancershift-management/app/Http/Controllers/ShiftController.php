@@ -66,7 +66,7 @@ class ShiftController extends Controller
         $dancers = Dancers::get();
         $positions = Positions::get();
         $shifts = [];
-        return view('shifts.search',compact('shows', 'positions', 'dancers', 'shifts'));
+        return view('shifts.find',compact('shows', 'positions', 'dancers', 'shifts'));
     }
 
     public function search(Request $request) {
@@ -78,8 +78,8 @@ class ShiftController extends Controller
         $shows = Shows::get();
         $dancers = Dancers::get();
         $positions = Positions::get();
-        $shifts = Shifts::where(['dancer_id' => $request->dancer_name, 'show_name' => $request->show_name])->get();
-        return view('shifts.search',compact('shows', 'positions', 'dancers', 'shifts'));
+        $shifts = Shifts::where(['dancer_id' => $request->dancer_name, 'show_name' => $request->show_name])->with('dancers')->get();
+        return view('shifts.find',compact('shows', 'positions', 'dancers', 'shifts'));
     }
 
     public function shiftForecast() {

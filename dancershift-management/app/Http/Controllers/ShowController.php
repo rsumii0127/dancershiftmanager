@@ -39,6 +39,7 @@ class ShowController extends Controller
         $show = Shows::where('show_id', $id)->first();
         return view('shows.delete', compact('show'));
     }
+    
 
     public function update(Request $request, Shows $show) {
         $validated = $request->validate([
@@ -57,5 +58,9 @@ class ShowController extends Controller
     public function destroy($id) {
         $show = Shows::where('show_id', $id)->delete();
         return redirect()->route('shows.index')->with('message', '正常に削除されました。');
+    }
+
+    public function showFind() {
+        
     }
 }

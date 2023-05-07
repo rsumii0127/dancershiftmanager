@@ -9,6 +9,10 @@ class Shifts extends Model
 {
     use HasFactory;
 
+    public function dancers() {
+        return $this->belongsTo(Dancers::class, 'dancer_id');
+    }
+
     protected $fillable = [
         'dancer_id',
         'show_name',

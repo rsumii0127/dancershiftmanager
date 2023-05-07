@@ -76,7 +76,7 @@ Route::post('shiftmanagement/show/destroy/{show_id}', [ShowController::class, 'd
 Route::get('shiftmanagement/shift/register', [ShiftController::class, 'shiftRegister'])->name('shifts.register');
 Route::get('shiftmanagement/shift/forecast', [ShiftController::class, 'shiftForecast'])->name('shifts.forecast');
 Route::get('shiftmanagement/shift/find', [ShiftController::class, 'shiftFind'])->name('shifts.find');
-Route::get('shiftmanagement/shift/', [ShiftController::class, 'search'])->name('shifts.search');
+Route::get('shiftmanagement/shift/get', [ShiftController::class, 'search'])->name('shifts.get');
 Route::get('shiftmanagement/shift/position', [ShiftController::class, 'searchPosition']) -> name('shifts.positionSearch');
 Route::post('shiftmanagement/shift', [ShiftController::class, 'store']) -> name('shifts.store');
 Route::get('shiftmanagement/shift/', [ShiftController::class, 'forecast']) -> name('shifts.calcShift');
@@ -86,7 +86,7 @@ Route::get('shiftmanagement/position/register', [PositionController::class, 'pos
 Route::get('shiftmanagement/position/index', [PositionController::class, 'positionIndex']) -> name('positions.index');
 Route::get('shiftmanagement/position/find', [PositionController::class, 'positionFind']) -> name('positions.find');
 Route::post('shiftmanagement/position', [PositionController::class, 'store']) -> name('positions.store');
-Route::get('shiftmanagement/position/edit/{position_id}', [PositionsController::class, 'positionEdit'])->name('positions.edit');
+Route::get('shiftmanagement/position/edit/{position_id}', [PositionController::class, 'positionEdit'])->name('positions.edit');
 Route::post('shiftmanagement/position/update', [PositionController::class, 'update'])->name('positions.update');
 Route::get('shiftmanagement/position/delete/{position_id}', [PositionController::class, 'positionDelete'])->name('positions.delete');
 Route::post('shiftmanagement/position/destroy/{position_id}', [PositionController::class, 'destroy'])->name('positions.destroy');
