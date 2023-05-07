@@ -103,23 +103,25 @@ class ShiftController extends Controller
         
         // 対象日付の曜日番号を取得
         $possibilities = [];
-        $shift = Shifts::where([[DB::raw("DATE_FORMAT(date, '%w')"), $weekday], ['off'=>0]])->get();
-        $shiftCnt = Shifts::select(DB::raw("position, COUNT(position) AS 'position_count'"))->groupBy('position')->where([[DB::raw("DATE_FORMAT(date, '%w')")=>$weekday], ['dancer_id'=>$request->dancer_name]])->get();
-        if ($shiftCnt->count() === 0) {
-            return back()->with('message', '該当する曜日のシフトが登録されていないため、予測できません');
-        }
-        
-        // 各ポジションの割合を算出。
-        foreach($shiftCnt as $cnt) {
-            $possibility = $cnt->position_count / $shift->count() * 100;
-            if (empty($cnt->position)) {
-                $possibilities = array_merge($possibilities, array('OFF'=>$possibility));
-            } else {
-                $possibilities = array_merge($possibilities, array($cnt->position=>$possibility));
+        $shifts = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->get();
+        $shiftCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->groupBy('position')->get();
+        $offRecs = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->where('dancer_id',$request->dancer_name)->get();
+        $offCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->groupBy('position')->where('dancer_id',$request->dancer_name)->get();
+        if ($shifts->count() === 0 && $offRecs->count() === 0) {
+            return back()->with('message', '該当する曜日のシフトが登録されていないため、予測できません')->with('possibilities', $possibilities);
+        } else {
+            // 各ポジションの割合を算出。
+            foreach($shiftCnt as $shift) {
+                $possibility = $shift->position_count / ($shifts->count() + $offRecs->count()) * 100;
+                $possibilities = array_merge($possibilities, array($shift->position=>$possibility));
             }
+            foreach($offCnt as $off) {
+                $possibility = $off->position_count / ($shifts->count() + $offRecs->count()) * 100;
+                $possibilities = array_merge($possibilities, array('OFF'=>$possibility));
+            }
+            $dancers = Dancers::get();
+            $shows = Shows::get();
+            return view('shifts.forecast',['dancers'=>$dancers, 'shows'=>$shows, 'date'=>$date, 'possibilities'=>$possibilities]);
         }
-        $dancers = Dancers::get();
-        $shows = Shows::get();
-        return view('shifts.forecast',['dancers'=>$dancers, 'shows'=>$shows, 'date'=>$date, 'possibilities'=>$possibilities]);
     }
 }
