@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             ショー一覧ページ
         </h2>
+        <a href="{{ route('shiftmanagement') }}">
+            TOPへ
+        </a>
     </x-slot>
     <form>
         @csrf
@@ -20,10 +23,12 @@
                     <th>削除</th>
                 </tr>
                 @foreach ($positions as $position)
+                <tr>
                     <td>{{ $position->shows->show_name }}</td>
                     <td>{{ $position->position_name }}</td>
                     <td><a href="{{ route('positions.edit', $position->position_id) }}" class="btn btn-primary" type="submit">編集する</a></td>
                     <td><a href="{{ route('positions.delete', $position->position_id) }}" class="btn btn-primary" type="submit">削除する</a></td>
+                </tr>
                 @endforeach
             </table>
         </div>

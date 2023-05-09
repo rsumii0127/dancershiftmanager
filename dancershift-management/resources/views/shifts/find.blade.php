@@ -1,6 +1,9 @@
 <x-app-layout>
   <x-slot name="header">
     シフト検索ページ
+    <a href="{{ route('shiftmanagement') }}">
+      TOPへ
+    </a>
   </x-slot>
   <div class="col-sm-4">
     <form class="form-inline" method="get" action={{ route('shifts.get') }} >
@@ -8,16 +11,6 @@
         <select name="dancer_name" id="dancer_name">
           @foreach ($dancers as $dancer)
           <option value="{{ $dancer->dancer_id }}">{{ $dancer->dancer_name }}</option>
-          @endforeach
-        </select>
-        <select name="show_name" id="show_name">
-          @foreach ($shows as $show)
-          <option value="{{ $show->show_name }}">{{ $show->show_name }}</option>
-          @endforeach
-        </select>
-        <select name="position_name" id="position_name">
-          @foreach ($positions as $position)
-          <option value="{{ $position->position_name }}">{{ $position->position_name }}</option>
           @endforeach
         </select>
       </div>
@@ -33,6 +26,8 @@
         <th>日付</th>
         <th>ポジション名</th>
         <th>オン/オフ</th>
+        <th>編集</th>
+        <th>削除</th>
       </tr>
       @foreach ($shifts as $shift)
       <tr>
@@ -40,7 +35,13 @@
         <td>{{ $shift->show_name }}</td>
         <td>{{ $shift->date }}</td>
         <td>{{ $shift->position }}</td>
-        <td>{{ $shift->off }}</td>
+        @if($shift->off == 1)
+        <td>OFF</td>
+        @else
+        <td></td>
+        @endif
+        <td><a href="{{ route('shifts.edit', $shift->shift_id) }}" class="btn btn-primary" type="submit">編集する</a></td>
+        <td><a href="{{ route('shifts.delete', $shift->shift_id) }}" class="btn btn-primary" type="submit">削除する</a></td>
       </tr>
       @endforeach
     </table>

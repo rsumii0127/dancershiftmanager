@@ -10,22 +10,26 @@
     <div class="max-w-7xl mx-auto px-6">
         <p>以下のショー情報を削除します。</p>
         <p>問題ない場合はOKボタンを押してください。</p>
-        <form method="POST" action="{{ route('positions.destroy', $position->position_id) }} ">
+        <form method="POST" action="{{ route('shifts.destroy', $shift->shift_id) }} ">
             @csrf
             <table border="1">
                 <tr>
+                    <th>ダンサー名</th>
                     <th>ショー名</th>
-                    <th>ポジション</th>
-                    <th>ショータイプ</th>
-                    <th>開始日</th>
-                    <th>終了日</th>
+                    <th>日付</th>
+                    <th>ポジション名</th>
+                    <th>オン/オフ</th>
                 </tr>
                 <tr>
-                    <td>{{ $position->position_name }}</td>
-                    <td>{{ $position->hold_park }}</td>
-                    <td>{{ $position->show_type }}</td>
-                    <td>{{ $position->start_date }}</td>
-                    <td>{{ $position->end_date }}</td>
+                    <td>{{ $shift->dancers->dancer_name }}</td>
+                    <td>{{ $shift->show_name }}</td>
+                    <td>{{ $shift->date }}</td>
+                    <td>{{ $shift->position }}</td>
+                    @if($shift->off == 1)
+                    <td>OFF</td>
+                    @else
+                    <td></td>
+                    @endif
                 </tr>
             </table>
             <x-primary-button class="mt-4">

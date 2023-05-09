@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            シフト登録フォーム
+            シフト編集フォーム
         </h2>
         <a href="{{ route('shiftmanagement') }}">
             TOPへ
         </a>
     </x-slot>
     <div class="max-w-7xl mx-auto px-6">
-        <form method="get" id="position_select" action="{{ route('shifts.positionSearch') }}">
+        <form method="get" id="position_select" action="{{ route('shifts.positionSearchEdit', $shift) }}">
             @csrf
             @if(session('message'))
             <div class="text-red-600 font-bold">
@@ -21,7 +21,7 @@
                 <x-input-error :messages="$errors->get('show_name')" class="mt-2" />
                 <select id="show_name" name="show_name">
                     @foreach ($shows as $show)
-                        <option value="{{ $show->show_id }}">{{ $show->show_name }}</option>
+                        <option value="{{ $show->show_id }}" @if($show->show_name == $shift->show_name)@selected(true)@endif>{{ $show->show_name }}</option>
                     @endforeach
                 </select>
                 <x-primary-button class="mt-3">
@@ -31,7 +31,7 @@
         </form>
     </div>
     <div class="max-w-7xl mx-auto px-6">
-        <form method="POST" action="{{ route('shifts.store') }}">
+        <form method="POST" action="{{ route('shifts.update') }}">
             @csrf
             <p class="font-semibold">手順2：以下を入力してください</p>
             <div class="mt-8">
@@ -44,7 +44,7 @@
                     <x-input-error :messages="$errors->get('dancer_name')" class="mt-2" />
                     <select id="dancer_name" name="dancer_name">
                         @foreach ($dancers as $dancer)
-                        <option value="{{ $dancer->dancer_name }}">{{ $dancer->dancer_name }}</option>
+                        <option value="{{ $dancer->dancer_name }}"@if($dancer->dancer_name == $shift->dancer_name)@selected(true)@endif>{{ $dancer->dancer_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="w-full flex flex-col">
                     <label for="date" class="font-semibold mt-4">日付</label>
                     <x-input-error :messages="$errors->get('date')" class="mt-2" />
-                    <input type="date" name="date" id="date">
+                    <input type="date" name="date" id="date" value={{ $shift->date }}>
                 </div>
                 <div class="w-full flex flex-col">
                     <label for="off" class="font-semibold mt-4">OFF※OFFの場合、チェックしてください</label>

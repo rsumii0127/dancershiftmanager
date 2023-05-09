@@ -57,7 +57,7 @@ Route::get('shiftmanagement/dancer/register', [DancerController::class, 'dancerR
 Route::get('shiftmanagement/dancer/index', [DancerController::class, 'dancerIndex'])->name('dancers.index');
 Route::get('shiftmanagement/dancer/find', [DancerController::class, 'dancerFind'])->name('dancers.find');
 Route::post('shiftmanagement/dancer', [DancerController::class, 'store']) -> name('dancers.store');
-Route::get('shiftmanagement/dancer/edit/{dancer_id}', [DancerController::class, 'dancerEdit'])->name('shows.edit');
+Route::get('shiftmanagement/dancer/edit/{dancer_id}', [DancerController::class, 'dancerEdit'])->name('dancers.edit');
 Route::post('shiftmanagement/dancer/update', [DancerController::class, 'update'])->name('dancers.update');
 Route::get('shiftmanagement/dancer/delete/{dancer_id}', [DancerController::class, 'dancerDelete'])->name('dancers.delete');
 Route::post('shiftmanagement/dancer/destroy/{dancer_id}', [DancerController::class, 'destroy'])->name('dancers.destroy');
@@ -80,6 +80,11 @@ Route::get('shiftmanagement/shift/get', [ShiftController::class, 'search'])->nam
 Route::get('shiftmanagement/shift/position', [ShiftController::class, 'searchPosition']) -> name('shifts.positionSearch');
 Route::post('shiftmanagement/shift', [ShiftController::class, 'store']) -> name('shifts.store');
 Route::get('shiftmanagement/shift/', [ShiftController::class, 'forecast']) -> name('shifts.calcShift');
+Route::get('shiftmanagement/shift/edit/{shift_id}', [ShiftController::class, 'shiftEdit'])->name('shifts.edit');
+Route::post('shiftmanagement/shift/update', [ShiftController::class, 'update'])->name('shifts.update');
+Route::get('shiftmanagement/shift/delete/{shift_id}', [ShiftController::class, 'shiftDelete'])->name('shifts.delete');
+Route::post('shiftmanagement/shift/destroy/{shift_id}', [ShiftController::class, 'destroy'])->name('shifts.destroy');
+Route::get('shiftmanagement/shift/positionEdit', [ShiftController::class, 'searchPositionEdit']) -> name('shifts.positionSearchEdit');
 
 // position
 Route::get('shiftmanagement/position/register', [PositionController::class, 'positionRegister']) -> name('positions.register');

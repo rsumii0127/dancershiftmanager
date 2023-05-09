@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             ショー一覧ページ
         </h2>
+        <a href="{{ route('shiftmanagement') }}">
+            TOPへ
+          </a>
     </x-slot>
     <form>
         @csrf
@@ -22,13 +25,15 @@
                     <th>削除</th>
                 </tr>
                 @foreach ($dancers as $dancer)
+                <tr>
                     <td>{{ $dancer->dancer_name }}</td>
                     <td>{{ $dancer->performance_park }}</td>
                     <td>{{ $dancer->performance_show_1 }}</td>
                     <td>{{ $dancer->performance_show_2 }}</td>
-                    <td><a href="{{ route('dancers.edit', $show->show_id) }}" class="btn btn-primary" type="submit">編集する</a></td>
-                    <td><a href="{{ route('dancers.delete', $show->show_id) }}" class="btn btn-primary" type="submit">削除する</a></td>
+                    <td><a href="{{ route('dancers.edit', $dancer->dancer_id) }}" class="btn btn-primary" type="submit">編集する</a></td>
+                    <td><a href="{{ route('dancers.delete', $dancer->dancer_id) }}" class="btn btn-primary" type="submit">削除する</a></td>
                 @endforeach
+                </tr>
             </table>
         </div>
     </form>

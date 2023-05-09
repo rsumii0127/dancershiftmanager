@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             ポジション登録フォーム
         </h2>
+        <a href="{{ route('shiftmanagement') }}">
+            TOPへ
+        </a>
     </x-slot>
     <div class="max-w-7xl mx-auto px-6">
         <form method="POST" action="{{ route('positions.store') }}">
