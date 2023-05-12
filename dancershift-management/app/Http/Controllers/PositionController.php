@@ -61,7 +61,7 @@ class PositionController extends Controller
     }
     
     public function destroy($id) {
-        $show = Shows::where('position_id', $id)->delete();
+        $show = Positions::where('position_id', $id)->with()->delete();
         return redirect()->route('positions.index')->with('message', '正常に削除されました。');
     }
 }
