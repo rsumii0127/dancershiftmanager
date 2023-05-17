@@ -16,16 +16,10 @@
                 <tr>
                     <th>ショー名</th>
                     <th>ポジション</th>
-                    <th>ショータイプ</th>
-                    <th>開始日</th>
-                    <th>終了日</th>
                 </tr>
                 <tr>
+                    <td>{{ $position->shows->show_name }}</td>
                     <td>{{ $position->position_name }}</td>
-                    <td>{{ $position->hold_park }}</td>
-                    <td>{{ $position->show_type }}</td>
-                    <td>{{ $position->start_date }}</td>
-                    <td>{{ $position->end_date }}</td>
                 </tr>
             </table>
             <x-primary-button class="mt-4">

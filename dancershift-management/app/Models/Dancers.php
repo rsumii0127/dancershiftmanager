@@ -11,6 +11,8 @@ class Dancers extends Model
     
     protected $primaryKey = 'dancer_id';
 
+    
+
     protected $fillable = [ 
         'dancer_name',
         'performance_park',

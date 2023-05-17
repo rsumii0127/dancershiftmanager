@@ -40,7 +40,7 @@ class PositionController extends Controller
     }
 
     public function positionDelete($id) {
-        $position = Positions::where('position_id', $id)->first();
+        $position = Positions::where('position_id', $id)->with('shows')->first();
         return view('positions.delete', compact('position'));
     }
 
@@ -61,7 +61,7 @@ class PositionController extends Controller
     }
     
     public function destroy($id) {
-        $show = Positions::where('position_id', $id)->with()->delete();
+        $position = Positions::where('position_id', $id)->delete();
         return redirect()->route('positions.index')->with('message', '正常に削除されました。');
     }
 }
