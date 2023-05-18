@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+hr {
+  border-top: 2px solid black;
+}
+
+#index-table {
+  margin: auto;
+}
+
+#index-table th {
+  background-color: aqua;
+  border: 3px solid black;
+}
+
+#index-table td {
+  border: 2px solid black;
+}
+
+#index-table tr:nth-child(2n+1) td{
+  background-color: #ffdaf8;
+}
+
+#footer-table {
+  border: none;
+  margin: auto;
+}

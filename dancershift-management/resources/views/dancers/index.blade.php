@@ -1,11 +1,9 @@
 <x-app-layout>
+    <link rel="stylesheet" href="{{ asset('/css/style.css')  }}" >
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            ショー一覧ページ
+            ダンサー一覧ページ
         </h2>
-        <a href="{{ route('shiftmanagement') }}">
-            TOPへ
-          </a>
     </x-slot>
     <form>
         @csrf
@@ -15,7 +13,7 @@
         </div>
         @endif
         <div class="max-w-7xl mx-auto px-6">
-            <table border="1">
+            <table id="index-table" border="1">
                 <tr>
                     <th>ダンサー名</th>
                     <th>出演パーク</th>
@@ -37,4 +35,6 @@
             </table>
         </div>
     </form>
+    <x-slot name="footer">
+    </x-slot>
 </x-app-layout>

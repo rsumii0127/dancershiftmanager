@@ -1,9 +1,6 @@
 <x-app-layout>
   <x-slot name="header">
     シフト検索ページ
-    <a href="{{ route('shiftmanagement') }}">
-      TOPへ
-    </a>
   </x-slot>
   <div class="col-sm-4">
     <form class="form-inline" method="get" action={{ route('shifts.get') }} >
@@ -19,7 +16,7 @@
       </x-primary-button>
     </form>
 
-    <table class="table">
+    <table id="index-table" class="table">
       <tr class="">
         <th>ダンサー名</th>
         <th>ショー名</th>
@@ -46,4 +43,6 @@
       @endforeach
     </table>
   </div>
+  <x-slot name="footer">
+  </x-slot>
 </x-app-layout>

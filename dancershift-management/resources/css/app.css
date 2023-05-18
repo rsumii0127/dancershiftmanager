@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+table tr:nth-child(2n+1) td{
+  background-color: #ffdaf8;
+}
+
 table, td, th {
-  border: 1px solid black;
+  border: 3px solid black;
 }

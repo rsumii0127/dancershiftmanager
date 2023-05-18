@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        <link rel="stylesheet" href="{{ asset('/css/style.css')  }}" >
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -29,8 +29,31 @@
 
             <!-- Page Content -->
             <main>
+                <br>
                 {{ $slot }}
             </main>
+
+            <!-- Page Footer -->
+            @if (isset($footer))
+            <footer class="footer">
+              <br>
+              <hr>
+              <table id="footer-table">
+                <tr>
+                  <td>
+                    <!-- TOPボタン -->
+                    <form action='{{ route('shiftmanagement') }}'>
+                      <x-primary-button>メインメニュー</x-primary-button>
+                    </form>
+                  </td>
+                  <td>
+                    <!-- 戻るボタン -->
+                    <x-primary-button onclick="history.back();">戻る</x-primary-button>
+                  </td>
+                </tr>
+              </table>
+            </footer>
+            @endif
         </div>
     </body>
 </html>

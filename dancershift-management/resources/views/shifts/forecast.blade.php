@@ -3,9 +3,6 @@
     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
         シフト予測ページ
     </h2>
-    <a href="{{ route('shiftmanagement') }}">
-      TOPへ
-  </a>
   </x-slot>
   <form class="form-inline" method="get" action={{ route('shifts.calcShift') }} >
     <div class="form-group">
@@ -39,4 +36,6 @@
       {{ $date }}のポジは{{ $value }}％の確率で{{ $key }}です。
     @endforeach
   </div>
+  <x-slot name="footer">
+  </x-slot>
 </x-app-layout>
