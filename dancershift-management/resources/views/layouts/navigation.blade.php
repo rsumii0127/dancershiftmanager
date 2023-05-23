@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('shiftmanagement')" :active="request()->routeIs('shiftmanagement')">
                         {{ __('ShiftManagement') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('presentmanagement')" :active="request()->routeIs('presentmanagement')">
+                        {{ __('PresentManagement') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -43,7 +46,9 @@
                         <x-dropdown-link :href="route('shiftmanagement')">
                             {{ __('ShiftManagement') }}
                         </x-dropdown-link>
-
+                        <x-dropdown-link :href="route('presentmanagement')">
+                            {{ __('PresentManagement') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -77,6 +82,16 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('shiftmanagement')" :active="request()->routeIs('shiftmanagement')">
+                {{ __('Shiftmanagement') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('presentmanagement')" :active="request()->routeIs('presentmanagement')">
+                {{ __('Presentmanagement') }}
+            </x-responsive-nav-link>
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -88,6 +103,12 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('shiftmanagement')">
+                    {{ __('Shiftmanagement') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('presentmanagement')">
+                    {{ __('Presentmanagement') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

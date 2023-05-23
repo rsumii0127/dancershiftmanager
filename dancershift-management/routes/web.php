@@ -5,6 +5,8 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Present\CandidateController;
+use App\Http\Controllers\Present\HistoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +47,18 @@ Route::get('/shiftmanagement/position/top', function () {
 Route::get('/shiftmanagement/show/top', function () {
     return view('shows.top');
 })->name('show');
+
+Route::get('/presentmanagement', function() {
+    return view('presentmanagement');
+})->middleware(['auth', 'verified'])->name('presentmanagement');
+
+Route::get('/presentmanagement/history/top', function() {
+    return view('present.history.top');
+})->name('present.history');
+
+Route::get('/presentmanagement/candidate/top', function() {
+    return view('present.candidate.top');
+})->name('present.candidate');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -95,5 +109,28 @@ Route::get('shiftmanagement/position/edit/{position_id}', [PositionController::c
 Route::post('shiftmanagement/position/update', [PositionController::class, 'update'])->name('positions.update');
 Route::get('shiftmanagement/position/delete/{position_id}', [PositionController::class, 'positionDelete'])->name('positions.delete');
 Route::post('shiftmanagement/position/destroy/{position_id}', [PositionController::class, 'destroy'])->name('positions.destroy');
+
+// present.history
+Route::get('presentmanagement/history/register', [HistoryController::class, 'historyRegister']) -> name('present.history.register');
+Route::get('presentmanagement/history/index', [HistoryController::class, 'historyIndex']) -> name('present.history.index');
+Route::get('presentmanagement/history/find', [HistoryController::class, 'historyFind']) -> name('present.history.find');
+Route::get('presentmanagement/history/get', [HistoryController::class, 'search'])->name('present.history.get');
+Route::post('presentmanagement/history/', [HistoryController::class, 'store']) -> name('present.history.store');
+Route::get('presentmanagement/history/edit/{present_id}', [HistoryController::class, 'historyEdit'])->name('present.history.edit');
+Route::post('presentmanagement/history/update', [HistoryController::class, 'update'])->name('present.history.update');
+Route::get('presentmanagement/history/delete/{present_id}', [HistoryController::class, 'historyDelete'])->name('present.history.delete');
+Route::post('presentmanagement/history/destroy/{present_id}', [HistoryController::class, 'destroy'])->name('present.history.destroy');
+
+
+// present.candidate
+Route::get('presentmanagement/candidate/register', [CandidateController::class, 'candidateRegister']) -> name('present.candidate.register');
+Route::get('presentmanagement/candidate/index', [CandidateController::class, 'candidateIndex']) -> name('present.candidate.index');
+Route::get('presentmanagement/candidate/find', [CandidateController::class, 'candidateFind']) -> name('present.candidate.find');
+Route::post('presentmanagement/candidate/', [CandidateController::class, 'store']) -> name('present.candidate.store');
+Route::get('presentmanagement/candidate/edit/{candidate_id}', [CandidateController::class, 'historyEdit'])->name('present.candidate.edit');
+Route::post('presentmanagement/candidate/update', [CandidateController::class, 'update'])->name('present.candidate.update');
+Route::get('presentmanagement/candidate/delete/{candidate_id}', [CandidateController::class, 'candidateDelete'])->name('present.candidate.delete');
+Route::post('presentmanagement/candidate/destroy/{candidate_id}', [CandidateController::class, 'destroy'])->name('present.candidate.destroy');
+
 
 require __DIR__.'/auth.php';

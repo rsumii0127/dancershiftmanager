@@ -53,6 +53,25 @@
                 </tr>
               </table>
             </footer>
+            @elseif (isset($present_footer))
+            <footer class="footer">
+              <br>
+              <hr>
+              <table id="footer-table">
+                <tr>
+                  <td>
+                    <!-- TOPボタン -->
+                    <form action='{{ route('presentmanagement') }}'>
+                      <x-primary-button>メインメニュー</x-primary-button>
+                    </form>
+                  </td>
+                  <td>
+                    <!-- 戻るボタン -->
+                    <x-primary-button onclick="history.back();">戻る</x-primary-button>
+                  </td>
+                </tr>
+              </table>
+            </footer>
             @endif
         </div>
     </body>
