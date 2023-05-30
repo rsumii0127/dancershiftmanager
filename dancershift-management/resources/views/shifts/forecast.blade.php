@@ -33,7 +33,7 @@
     </div>
     @endif
     @foreach ($possibilities as $key => $value)
-      {{ $date }}のポジは{{ $value }}％の確率で{{ $key }}です。
+      {{ $date }}のポジは{{ $value }}％の確率で{{ $key }}です。<br>
     @endforeach
   </div>
   <x-slot name="footer">
