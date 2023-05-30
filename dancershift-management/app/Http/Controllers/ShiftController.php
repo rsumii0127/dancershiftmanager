@@ -113,13 +113,16 @@ class ShiftController extends Controller
             // 各ポジションの割合を算出。
             foreach($shiftCnt as $shift) {
                 $possibility = $shift->position_count / ($shifts->count() + $offRecs->count()) * 100;
-                if(strcmp($shift->position, $yesterdayShift->position) == 0) {
-                    // 前日と同ポジションの場合はアラート文
-                    $possibilities = array_merge($possibilities, array($shift->position.'(前日と同じポジションです)'=>$possibility));
+                if(!empty($yesterdayShift)) {
+                    if(strcmp($shift->position, $yesterdayShift->position) == 0) {
+                        // 前日と同ポジションの場合はアラート文
+                        $possibilities = array_merge($possibilities, array($shift->position.'(前日と同じポジションです)'=>$possibility));
+                    } else {
+                        $possibilities = array_merge($possibilities, array($shift->position=>$possibility));
+                    }
                 } else {
                     $possibilities = array_merge($possibilities, array($shift->position=>$possibility));
                 }
-                
             }
             foreach($offCnt as $off) {
                 $possibility = $off->position_count / ($shifts->count() + $offRecs->count()) * 100;
