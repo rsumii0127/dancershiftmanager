@@ -112,7 +112,7 @@ class ShiftController extends Controller
         } else {
             // 各ポジションの割合を算出。
             foreach($shiftCnt as $shift) {
-                $possibility = $shift->position_count / ($shifts->count() + $offRecs->count()) * 100;
+                $possibility = round($shift->position_count / ($shifts->count() + $offRecs->count()) * 100);
                 if(!empty($yesterdayShift)) {
                     if(strcmp($shift->position, $yesterdayShift->position) == 0) {
                         // 前日と同ポジションの場合はアラート文
