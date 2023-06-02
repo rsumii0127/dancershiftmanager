@@ -74,8 +74,23 @@ class ShiftController extends Controller
         ]);
         $dancers = Dancers::get();
         $shifts = Shifts::where(['dancer_id' => $request->dancer_name,])->with('dancers')->get();
+        $week = array( "日", "月", "火", "水", "木", "金", "土" );
+        foreach ($shifts as $shift) {
+            $datetime = new DateTime($shift->date);
+            $youbi = $week[$datetime->format('w')];
+            $shift['youbi'] = $youbi;
+        }
         // ソート
-        $shifts = $shifts->sortBy('date')->values();
+        if ($request->week_sort === 'on') {
+            $shifts = $shifts->sort(function($first, $second) {
+                if($first['youbi'] == $second['youbi']) {
+                    return $first['date'] > $second['date'] ? 1: -1;
+                }
+                return $first['youbi'] > $second['youbi'] ? 1: -1;
+            })->values();
+        } else {
+            $shifts = $shifts->sortBy('date')->values();
+        }
         return view('shifts.find',compact('dancers', 'shifts'));
     }
 

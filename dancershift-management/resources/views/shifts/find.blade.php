@@ -11,19 +11,22 @@
           <option value="{{ $dancer->dancer_id }}">{{ $dancer->dancer_name }}</option>
           @endforeach
         </select>
+        <br>
+        <label for="week_sort">曜日ごとにまとめる場合はチェック！→</label>
+        <input type="checkbox" name="week_sort">
       </div>
       <x-primary-button class="mt-4">
         検索
       </x-primary-button>
     </form>
-    <
     <table id="index-table" class="table">
       <tr class="">
         <th>ダンサー名</th>
         <th>ショー名</th>
         <th>日付</th>
+        <th>曜日</th>
         <th>ポジション名</th>
-        <th>オン/オフ</th>
+        <th>オフ</th>
         <th>編集</th>
         <th>削除</th>
       </tr>
@@ -32,6 +35,7 @@
         <td>{{ $shift->dancers->dancer_name }}</td>
         <td>{{ $shift->show_name }}</td>
         <td>{{ $shift->date }}</td>
+        <td>{{ $shift->youbi }}</td>
         <td>{{ $shift->position }}</td>
         @if($shift->off == 1)
         <td>OFF</td>
