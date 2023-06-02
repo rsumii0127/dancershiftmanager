@@ -1,6 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     シフト検索ページ
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
   </x-slot>
   <div class="col-sm-4">
     <form class="form-inline" method="get" action={{ route('shifts.get') }} >
@@ -15,7 +16,7 @@
         検索
       </x-primary-button>
     </form>
-
+    <
     <table id="index-table" class="table">
       <tr class="">
         <th>ダンサー名</th>
@@ -42,6 +43,7 @@
       </tr>
       @endforeach
     </table>
+    {{-- <div id='calendar' value={{ $shifts }}></div> --}}
   </div>
   <x-slot name="footer">
   </x-slot>

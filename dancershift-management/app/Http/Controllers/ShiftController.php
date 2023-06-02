@@ -74,6 +74,8 @@ class ShiftController extends Controller
         ]);
         $dancers = Dancers::get();
         $shifts = Shifts::where(['dancer_id' => $request->dancer_name,])->with('dancers')->get();
+        // ソート
+        $shifts = $shifts->sortBy('date')->values();
         return view('shifts.find',compact('dancers', 'shifts'));
     }
 
@@ -125,7 +127,7 @@ class ShiftController extends Controller
                 }
             }
             foreach($offCnt as $off) {
-                $possibility = $off->position_count / ($shifts->count() + $offRecs->count()) * 100;
+                $possibility = round($off->position_count / ($shifts->count() + $offRecs->count()) * 100);
                 $possibilities = array_merge($possibilities, array('OFF'=>$possibility));
             }
             $dancers = Dancers::get();
