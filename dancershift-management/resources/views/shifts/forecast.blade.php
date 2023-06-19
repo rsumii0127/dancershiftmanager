@@ -35,6 +35,31 @@
     @foreach ($possibilities as $key => $value)
       {{ $date }}のポジは{{ $value }}％の確率で{{ $key }}です。<br>
     @endforeach
+    <h2>ちなみにここ1週間のポジは以下の通りです。</h2>
+    <table id="index-table" class="table">
+      <tr class="">
+        <th>ダンサー名</th>
+        <th>ショー名</th>
+        <th>日付</th>
+        <th>曜日</th>
+        <th>ポジション名</th>
+        <th>オフ</th>
+      </tr>
+      @foreach ($shifts as $shift)
+      <tr>
+        <td>{{ $shift->dancers->dancer_name }}</td>
+        <td>{{ $shift->show_name }}</td>
+        <td>{{ $shift->date }}</td>
+        <td>{{ $shift->youbi }}</td>
+        <td>{{ $shift->position }}</td>
+        @if($shift->off == 1)
+        <td>OFF</td>
+        @else
+        <td></td>
+        @endif
+      </tr>
+      @endforeach
+    </table>
   </div>
   <x-slot name="footer">
   </x-slot>
