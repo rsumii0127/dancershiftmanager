@@ -98,8 +98,7 @@ class ShiftController extends Controller
         $dancers = Dancers::get();
         $shows = Shows::get();
         $possibilities = [];
-        $shifts = [];
-        return view('shifts.forecast', ['dancers'=>$dancers, 'shows'=>$shows, 'possibilities'=>$possibilities,'shifts'=>$shifts]);
+        return view('shifts.forecast', ['dancers'=>$dancers, 'shows'=>$shows, 'possibilities'=>$possibilities]);
     }
 
 
@@ -148,11 +147,7 @@ class ShiftController extends Controller
             }
             $dancers = Dancers::get();
             $shows = Shows::get();
-            // 直近1週間のシフト情報取得
-            $todayDateTime = new DateTime('now');
-            $lastweekToday = $todayDateTime->modify('-7 days');
-            $weekShifts = Shifts::whereBetween('date',[$lastweekToday, $todayDateTime])->get();
-            return view('shifts.forecast',['dancers'=>$dancers, 'shows'=>$shows, 'date'=>$date, 'possibilities'=>$possibilities, 'shifts'=>$weekShifts]);
+            return view('shifts.forecast',['dancers'=>$dancers, 'shows'=>$shows, 'date'=>$date, 'possibilities'=>$possibilities]);
         }
     }
 
