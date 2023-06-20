@@ -153,7 +153,7 @@ class ShiftController extends Controller
             $today = $todayDatetime->format('Y-m-d');
             $lastweekDatetime = $todayDatetime->modify('-7 days');
             $lastweek = $lastweekDatetime->format('Y-m-d');
-            $weekshifts = Shifts::whereBetween('date', [$lastweek, $today])->get();
+            $weekshifts = Shifts::whereBetween('date', [$lastweek, $today])->where('dancer_id',$request->dancer_name)->get();
             $week = array( "日", "月", "火", "水", "木", "金", "土" );
             foreach ($weekshifts as $shift) {
                 $datetime = new DateTime($shift->date);
