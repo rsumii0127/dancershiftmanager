@@ -150,11 +150,20 @@ class ShiftController extends Controller
             $shows = Shows::get();
             // 直近1週間のシフト取得
             $todayDatetime = new DateTime();
+            $today = $todayDatetime->format('Y-m-d');
             $lastweekDatetime = $todayDatetime->modify('-7 days');
-            var_dump('today='.$todayDatetime);
-            var_dump('lastweek='.$lastweekDatetime);
-            $weekshifts = Shifts::whereBetween('date', [$lastweekDatetime, $todayDatetime])->get();
+            $lastweek = $lastweekDatetime->format('Y-m-d');
+            $weekshifts = Shifts::whereBetween('date', [$lastweek, $today])->get();
+            $week = array( "日", "月", "火", "水", "木", "金", "土" );
+            foreach ($weekshifts as $shift) {
+                $datetime = new DateTime($shift->date);
+                $youbi = $week[$datetime->format('w')];
+                $shift['youbi'] = $youbi;
+            }
+            // ソート
+            $weekshifts = $weekshifts->sortBy('date')->values();
             return view('shifts.forecast',['dancers'=>$dancers, 'shows'=>$shows, 'date'=>$date, 'possibilities'=>$possibilities, 'shifts'=>$weekshifts]);
+            
         }
     }
 
