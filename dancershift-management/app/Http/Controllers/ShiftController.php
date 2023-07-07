@@ -43,6 +43,7 @@ class ShiftController extends Controller
         } else {
             $off = 0;
         }
+
         $validated = $request -> validate([
             // 'selected_show_name'=>'required',
             'dancer_name'=>'required',
@@ -50,6 +51,11 @@ class ShiftController extends Controller
             'date'=>'date|required',
             'off'=>'nullable|required_without:checkedPosition|prohibits:checkedPosition'
         ]);
+        // 日付の重複チェック
+        $duplicateCheck = Shifts::where(['dancer_id' => $dancer_id, 'date' => $request->date])->get();
+        if ($duplicateCheck->count() > 0) {
+            return back()->with('message', '日付が重複しています。ご確認ください。');
+        }
         $shift = Shifts::create([
             'dancer_id' => $dancer_id,
             'show_name' => $request->selected_show_name,
@@ -118,13 +124,13 @@ class ShiftController extends Controller
         $possibilities = [];
         // 前日補正の係数
         // 前日に同ポジションで出ている場合
-        $shifts = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->get();
-        $shiftCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->groupBy('position')->get();
-        $offRecs = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->where('dancer_id',$request->dancer_name)->get();
-        $offCnt = Shifts::select('position', DB::raw("COUNT(off) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->groupBy('position')->where('dancer_id',$request->dancer_name)->get();
+        $shifts = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->where('show_name', $request->show_name)->get();
+        $shiftCnt = Shifts::select('position', DB::raw("COUNT(position) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->where('show_name', $request->show_name)->whereNotNull('position')->where('dancer_id',$request->dancer_name)->groupBy('position')->get();
+        $offRecs = Shifts::where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->whereNull('position')->where('dancer_id',$request->dancer_name)->where('show_name', $request->show_name)->get();
+        $offCnt = Shifts::select('position', DB::raw("COUNT(off) as 'position_count'"))->where(DB::raw("DATE_FORMAT(date, '%w')"), $weekday)->where('show_name', $request->show_name)->whereNull('position')->groupBy('position')->where('dancer_id',$request->dancer_name)->get();
         // 前日のポジション
         $yesterday = $dateTime->modify('-1 days');
-        $yesterdayShift = Shifts::where('date', $yesterday)->where('dancer_id',$request->dancer_name)->first();
+        $yesterdayShift = Shifts::where('date', $yesterday)->where('dancer_id',$request->dancer_name)->where('show_name', $request->show_name)->first();
         if ($shifts->count() === 0 && $offRecs->count() === 0) {
             return back()->with('message', '該当する曜日のシフトが登録されていないため、予測できません')->with('possibilities', $possibilities);
         } else {
@@ -153,7 +159,7 @@ class ShiftController extends Controller
             $today = $todayDatetime->format('Y-m-d');
             $lastweekDatetime = $todayDatetime->modify('-7 days');
             $lastweek = $lastweekDatetime->format('Y-m-d');
-            $weekshifts = Shifts::whereBetween('date', [$lastweek, $today])->where('dancer_id',$request->dancer_name)->get();
+            $weekshifts = Shifts::whereBetween('date', [$lastweek, $today])->where('dancer_id',$request->dancer_name)->where('show_name', $request->show_name)->get();
             $week = array( "日", "月", "火", "水", "木", "金", "土" );
             foreach ($weekshifts as $shift) {
                 $datetime = new DateTime($shift->date);
