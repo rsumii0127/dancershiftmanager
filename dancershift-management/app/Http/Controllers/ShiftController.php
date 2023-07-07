@@ -70,16 +70,23 @@ class ShiftController extends Controller
     public function shiftFind() {
         $dancers = Dancers::get();
         $shifts = [];
-        return view('shifts.find',compact('dancers', 'shifts'));
+        $shows = Shows::get();
+        return view('shifts.find',compact('dancers', 'shifts', 'shows'));
     }
 
     public function search(Request $request) {
         $validated = $request -> validate([
             // 'selected_show_name'=>'required',
             'dancer_name'=>'required',
+            'show_name'=>'required'
         ]);
         $dancers = Dancers::get();
-        $shifts = Shifts::where(['dancer_id' => $request->dancer_name,])->with('dancers')->get();
+        if($request->show_name == 'all') {
+            $shifts = Shifts::where(['dancer_id' => $request->dancer_name,])->with('dancers')->get();
+        } else {
+            $shifts = Shifts::where(['dancer_id' => $request->dancer_name,'show_name' => $request->show_name])->with('dancers')->get();
+        }
+        
         $week = array( "日", "月", "火", "水", "木", "金", "土" );
         foreach ($shifts as $shift) {
             $datetime = new DateTime($shift->date);
@@ -97,7 +104,8 @@ class ShiftController extends Controller
         } else {
             $shifts = $shifts->sortBy('date')->values();
         }
-        return view('shifts.find',compact('dancers', 'shifts'));
+        $shows = Shows::get();
+        return view('shifts.find',compact('dancers', 'shifts','shows'));
     }
 
     public function shiftForecast() {

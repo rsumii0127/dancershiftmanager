@@ -11,6 +11,12 @@
           <option value="{{ $dancer->dancer_id }}">{{ $dancer->dancer_name }}</option>
           @endforeach
         </select>
+        <select name="show_name" id="show_name">
+          <option value="all">全て</option>
+          @foreach ($shows as $show)
+          <option value="{{ $show->show_name }}">{{ $show->show_name }}</option>
+          @endforeach
+        </select>
         <br>
         <label for="week_sort">曜日ごとにまとめる場合はチェック！→</label>
         <input type="checkbox" name="week_sort">
