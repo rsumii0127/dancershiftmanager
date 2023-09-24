@@ -52,7 +52,7 @@ class ShiftController extends Controller
             'off'=>'nullable|required_without:checkedPosition|prohibits:checkedPosition'
         ]);
         // 日付の重複チェック
-        $duplicateCheck = Shifts::where(['dancer_id' => $dancer_id, 'date' => $request->date])->get();
+        $duplicateCheck = Shifts::where(['dancer_id' => $dancer_id, 'show_name' => $request->show_name,'date' => $request->date])->get();
         if ($duplicateCheck->count() > 0) {
             return back()->with('message', '日付が重複しています。ご確認ください。');
         }
